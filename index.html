@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,6 +16,10 @@
       padding: 0;
       background: #f4f5f1;
       color: #111;
+
+      /* page fade-in */
+      opacity: 0;
+      animation: pageFadeIn 0.7s ease forwards;
     }
 
     .container {
@@ -40,6 +45,23 @@
       padding-bottom: 6px;
       color: #556b2f;
       font-weight: 600;
+      position: relative;
+    }
+
+    /* animated underline on reveal */
+    h2::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: -3px;
+      height: 2px;
+      width: 0;
+      background: #a3b88a;
+      transition: width 0.5s ease;
+    }
+
+    .reveal h2::after {
+      width: 60px;
     }
 
     .tagline {
@@ -73,15 +95,59 @@
       color: #556b2f;
       text-decoration: none;
       font-weight: 500;
+      transition: color 0.2s ease, transform 0.15s ease;
     }
 
     a:hover {
       text-decoration: underline;
+      color: #3d4f20;
+      transform: translateY(-1px);
     }
 
     .contact a {
       display: inline-block;
       margin-right: 18px;
+    }
+
+    /* ==== scroll reveal for sections and list items ==== */
+
+    .section {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section.reveal ul li {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    ul li {
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    /* soft pulse for future resume link (when added) */
+    #resume.reveal p {
+      animation: softPulse 2s ease-in-out infinite;
+    }
+
+    /* keyframes */
+
+    @keyframes pageFadeIn {
+      to { opacity: 1; }
+    }
+
+    @keyframes softPulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.7; }
+      100% { opacity: 1; }
     }
   </style>
 </head>
@@ -195,5 +261,21 @@
     </div>
 
   </div>
+
+  <script>
+    // scroll reveal for sections and their list items
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal');
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.section').forEach(sec => {
+      observer.observe(sec);
+    });
+  </script>
 </body>
 </html>
+```
