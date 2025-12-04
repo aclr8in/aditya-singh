@@ -1,4 +1,4 @@
-
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,32 +10,105 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    :root {
+      --olive: #556b2f;
+      --olive-soft: #a3b88a;
+      --paper: #f4f5f1;
+      --card-bg: #ffffff;
+      --shadow: 0 14px 40px rgba(0,0,0,0.15);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Inter', system-ui, sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f5f1;
+      background: radial-gradient(circle at top, #f0f5e7 0, #e5ebd7 40%, #dcdccc 100%);
       color: #111;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
 
-      /* page fade-in */
       opacity: 0;
-      animation: pageFadeIn 0.7s ease forwards;
+      animation: pageFadeIn 0.8s ease forwards;
+    }
+
+    /* soft background orbs */
+    .bg-orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(40px);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+      mix-blend-mode: multiply;
+    }
+    .orb1 {
+      width: 260px;
+      height: 260px;
+      background: #e0f0c0;
+      top: -60px;
+      left: -40px;
+      animation: floatOrb 18s ease-in-out infinite alternate;
+    }
+    .orb2 {
+      width: 220px;
+      height: 220px;
+      background: #f5e5c0;
+      bottom: -70px;
+      right: -20px;
+      animation: floatOrb 22s ease-in-out infinite alternate;
+    }
+
+    .scroll-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0;
+      background: linear-gradient(to right, var(--olive), var(--olive-soft));
+      z-index: 20;
+      transform-origin: left;
     }
 
     .container {
+      position: relative;
       max-width: 880px;
-      margin: 50px auto;
-      padding: 32px;
-      background: #ffffff;
-      border-radius: 14px;
-      box-shadow: 0 8px 25px rgba(0,0,0,0.07);
+      margin: 40px auto 60px;
+      padding: 32px 32px 40px;
+      background: var(--card-bg);
+      border-radius: 18px;
+      box-shadow: var(--shadow);
+      z-index: 5;
+      overflow: hidden;
+    }
+
+    /* animated border glow */
+    .container::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(85,107,47,0.35), transparent, rgba(163,184,138,0.7));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      opacity: 0;
+      animation: borderGlow 2.4s ease-out forwards;
     }
 
     h1 {
       font-size: 34px;
       margin-bottom: 6px;
-      color: #556b2f; /* Olive Green */
+      color: var(--olive);
       font-weight: 700;
+      letter-spacing: 0.02em;
     }
 
     h2 {
@@ -43,7 +116,7 @@
       margin-top: 32px;
       border-bottom: 2px solid #d6dec8;
       padding-bottom: 6px;
-      color: #556b2f;
+      color: var(--olive);
       font-weight: 600;
       position: relative;
     }
@@ -56,18 +129,55 @@
       bottom: -3px;
       height: 2px;
       width: 0;
-      background: #a3b88a;
+      background: var(--olive-soft);
       transition: width 0.5s ease;
     }
 
     .reveal h2::after {
-      width: 60px;
+      width: 64px;
     }
 
     .tagline {
       font-size: 15px;
       color: #444;
-      margin-bottom: 22px;
+      margin-bottom: 8px;
+    }
+
+    .tagline-secondary {
+      font-size: 14px;
+      color: #666;
+      margin-top: -6px;
+      display: inline-block;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+
+    /* subtle typing bar */
+    .tagline-secondary::after {
+      content: "";
+      position: absolute;
+      right: -4px;
+      top: 0;
+      width: 2px;
+      height: 100%;
+      background: #999;
+      animation: caretBlink 1s steps(1) infinite;
+    }
+
+    .section {
+      margin-top: 8px;
+      line-height: 1.7;
+      font-size: 15px;
+
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .section.reveal {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .section p {
@@ -76,9 +186,39 @@
     }
 
     ul {
-      padding-left: 18px;
+      padding-left: 0;
+      margin: 8px 0 0 0;
+      list-style: none;
       font-size: 15px;
       line-height: 1.6;
+    }
+
+    ul li {
+      position: relative;
+      padding-left: 22px;
+      margin-bottom: 6px;
+      opacity: 0;
+      transform: translateX(-10px);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    ul li::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 8px;
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--olive-soft);
+      box-shadow: 0 0 0 4px rgba(163,184,138,0.35);
+      transform: scale(0.6);
+      opacity: 0.7;
+    }
+
+    .section.reveal ul li {
+      opacity: 1;
+      transform: translateX(0);
     }
 
     .project {
@@ -92,7 +232,7 @@
     }
 
     a {
-      color: #556b2f;
+      color: var(--olive);
       text-decoration: none;
       font-weight: 500;
       transition: color 0.2s ease, transform 0.15s ease;
@@ -109,50 +249,75 @@
       margin-right: 18px;
     }
 
-    /* ==== scroll reveal for sections and list items ==== */
-
-    .section {
-      opacity: 0;
-      transform: translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    /* contact subtle pill hover */
+    .contact a {
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #f4f5ee;
+      box-shadow: 0 0 0 0 rgba(85,107,47,0.0);
+      transition: background 0.2s ease, box-shadow 0.2s ease, transform 0.15s ease;
     }
 
-    .section.reveal {
-      opacity: 1;
-      transform: translateY(0);
+    .contact a:hover {
+      background: #e6f0d4;
+      box-shadow: 0 6px 16px rgba(85,107,47,0.18);
+      transform: translateY(-1px);
+      text-decoration: none;
     }
 
-    .section.reveal ul li {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    ul li {
-      opacity: 0;
-      transform: translateX(-10px);
-      transition: opacity 0.35s ease, transform 0.35s ease;
-    }
-
-    /* soft pulse for future resume link (when added) */
+    /* subtle resume pulse (when visible) */
     #resume.reveal p {
-      animation: softPulse 2s ease-in-out infinite;
+      animation: softPulse 2.4s ease-in-out infinite;
     }
 
     /* keyframes */
-
     @keyframes pageFadeIn {
       to { opacity: 1; }
     }
 
     @keyframes softPulse {
       0% { opacity: 1; }
-      50% { opacity: 0.7; }
+      50% { opacity: 0.74; }
       100% { opacity: 1; }
+    }
+
+    @keyframes caretBlink {
+      0%, 49% { opacity: 1; }
+      50%, 100% { opacity: 0; }
+    }
+
+    @keyframes floatOrb {
+      0% { transform: translate(0,0); }
+      100% { transform: translate(20px, 30px); }
+    }
+
+    @keyframes borderGlow {
+      0% { opacity: 0; }
+      30% { opacity: 1; }
+      100% { opacity: 0.65; }
+    }
+
+    /* responsive */
+    @media (max-width: 640px) {
+      .container {
+        margin: 24px 12px 40px;
+        padding: 24px 18px 30px;
+      }
+      h1 {
+        font-size: 28px;
+      }
     }
   </style>
 </head>
 
 <body>
+  <!-- animated scroll indicator -->
+  <div class="scroll-bar" id="scrollBar"></div>
+
+  <!-- soft background shapes -->
+  <div class="bg-orb orb1"></div>
+  <div class="bg-orb orb2"></div>
+
   <div class="container">
 
     <!-- HEADER -->
@@ -160,10 +325,9 @@
     <div class="tagline">
       Class 12 • PCM • Physics & Tech Enthusiast • Gurgaon, Haryana
     </div>
-    <div class="tagline" style="font-size: 14px; color: #666; margin-top: -10px;">
-  Thinking in systems.
-</div>
-
+    <div class="tagline-secondary">
+      Thinking in systems.
+    </div>
 
     <!-- ABOUT -->
     <div class="section" id="about">
@@ -196,9 +360,8 @@
       <p>
         Project details will be added here with documented problems, actions, results,
         and proof links.
-        
       </p>
-      <P>Currently working on <strong>Optical Fiber Loss Optimization Model</strong></P>
+      <p>Currently working on <strong>Optical Fiber Loss Optimization Model</strong></p>
     </div>
 
     <!-- ACHIEVEMENTS -->
@@ -231,17 +394,17 @@
         </li>
       </ul>
     </div>
+
+    <!-- HOBBIES -->
     <div class="section" id="hobbies">
-  <h2>Hobbies & Interests</h2>
-  <ul>
-  <li>Playing chess for strategic and analytical development</li>
-  <li>Competitive gaming (Valorant) with a focus on teamwork and decision-making</li>
-  <li>Playing volleyball for fitness, coordination, and discipline</li>
-  <li>Exploring emerging technologies and digital tools</li>
-</ul>
-
-</div>
-
+      <h2>Hobbies & Interests</h2>
+      <ul>
+        <li>Playing chess for strategic and analytical development</li>
+        <li>Competitive gaming (Valorant) with a focus on teamwork and decision-making</li>
+        <li>Playing volleyball for fitness, coordination, and discipline</li>
+        <li>Exploring emerging technologies and digital tools</li>
+      </ul>
+    </div>
 
     <!-- RESUME -->
     <div class="section" id="resume">
@@ -263,17 +426,29 @@
   </div>
 
   <script>
-    // scroll reveal for sections and their list items
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('reveal');
-        }
-      });
-    }, { threshold: 0.15 });
+    // scroll reveal for sections
+    const sectionObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('reveal');
+          }
+        });
+      },
+      { threshold: 0.18 }
+    );
 
     document.querySelectorAll('.section').forEach(sec => {
-      observer.observe(sec);
+      sectionObserver.observe(sec);
+    });
+
+    // scroll progress bar
+    const scrollBar = document.getElementById('scrollBar');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+      scrollBar.style.width = (progress * 100) + '%';
     });
   </script>
 </body>
