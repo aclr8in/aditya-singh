@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +15,7 @@
       --paper: #f4f5f1;
       --card-bg: #ffffff;
       --shadow: 0 14px 40px rgba(0,0,0,0.15);
+      --section-shadow: 0 10px 25px rgba(0,0,0,0.06);
     }
 
     * {
@@ -34,6 +34,28 @@
 
       opacity: 0;
       animation: pageFadeIn 0.8s ease forwards;
+    }
+
+    /* clean scroll progress bar with track */
+    .scroll-track {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(214, 222, 200, 0.7);
+      z-index: 20;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .scroll-bar {
+      height: 100%;
+      width: 0;
+      background: linear-gradient(to right, var(--olive), var(--olive-soft));
+      border-radius: inherit;
+      box-shadow: 0 0 10px rgba(85,107,47,0.4);
+      transform-origin: left;
     }
 
     /* soft background orbs */
@@ -63,60 +85,14 @@
       animation: floatOrb 22s ease-in-out infinite alternate;
     }
 
-    /* thicker scroll progress bar with end cap */
-    .scroll-bar {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 7px;
-      width: 0;
-      background: linear-gradient(to right, var(--olive), var(--olive-soft));
-      z-index: 20;
-      transform-origin: left;
-      border-radius: 999px;
-      box-shadow: 0 0 10px rgba(85,107,47,0.4);
-      overflow: visible;
-    }
-    .scroll-thumb {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      width: 18px;
-      height: 18px;
-      border-radius: 999px;
-      background: radial-gradient(circle at 30% 30%, #ffffff, var(--olive-soft));
-      box-shadow: 0 0 12px rgba(85,107,47,0.9);
-      pointer-events: none;
-    }
-
     .container {
       position: relative;
       max-width: 880px;
-      margin: 40px auto 60px;
-      padding: 32px 32px 40px;
-      background: var(--card-bg);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
+      margin: 56px auto 60px;
+      padding: 24px 24px 32px;
+      background: transparent;
+      border-radius: 22px;
       z-index: 5;
-      overflow: hidden;
-      transform-style: preserve-3d;
-    }
-
-    /* animated border glow */
-    .container::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      border-radius: inherit;
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(85,107,47,0.35), transparent, rgba(163,184,138,0.7));
-      -webkit-mask:
-        linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-              mask-composite: exclude;
-      opacity: 0;
-      animation: borderGlow 2.4s ease-out forwards;
     }
 
     h1 {
@@ -126,7 +102,6 @@
       font-weight: 700;
       letter-spacing: 0.02em;
       transition: letter-spacing 0.3s ease, filter 0.3s ease, transform 0.25s ease;
-      will-change: transform;
     }
 
     h1:hover {
@@ -135,22 +110,21 @@
     }
 
     h2 {
-      font-size: 22px;
-      margin-top: 32px;
-      border-bottom: 2px solid #d6dec8;
-      padding-bottom: 6px;
+      font-size: 18px;
+      margin: 0;
       color: var(--olive);
       font-weight: 600;
       position: relative;
       transition: color 0.25s ease, transform 0.25s ease, background-position 0.5s ease;
+      display: inline-block;
     }
 
-    /* animated underline on reveal */
+    /* animated underline */
     h2::after {
       content: "";
       position: absolute;
       left: 0;
-      bottom: -3px;
+      bottom: -5px;
       height: 2px;
       width: 0;
       background: var(--olive-soft);
@@ -158,12 +132,12 @@
     }
 
     .reveal h2::after {
-      width: 64px;
+      width: 52px;
     }
 
-    /* advanced hover: gradient sweep + slide */
-    h2:hover {
-      transform: translateX(6px);
+    /* hover gradient sweep on section titles */
+    .section:hover h2 {
+      transform: translateX(4px);
       background-image: linear-gradient(120deg, var(--olive), #111, var(--olive-soft));
       background-size: 200% 100%;
       background-position: 0% 50%;
@@ -171,28 +145,27 @@
       color: transparent;
     }
 
-    h2:hover::after {
-      width: 120px;
-      box-shadow: 0 0 12px rgba(163,184,138,0.9);
+    .section:hover h2::after {
+      width: 100px;
+      box-shadow: 0 0 10px rgba(163,184,138,0.7);
     }
 
     .tagline {
       font-size: 15px;
       color: #444;
-      margin-bottom: 8px;
+      margin-bottom: 4px;
     }
 
     .tagline-secondary {
       font-size: 14px;
       color: #666;
-      margin-top: -6px;
+      margin-top: -4px;
       display: inline-block;
       position: relative;
       overflow: hidden;
       white-space: nowrap;
     }
 
-    /* subtle typing bar */
     .tagline-secondary::after {
       content: "";
       position: absolute;
@@ -204,15 +177,24 @@
       animation: caretBlink 1s steps(1) infinite;
     }
 
+    /* SECTION AS ROUNDED CARDS */
     .section {
-      margin-top: 8px;
-      line-height: 1.7;
-      font-size: 15px;
+      margin-top: 20px;
+      margin-bottom: 14px;
+      padding: 18px 18px 16px;
+      background: #ffffff;
+      border-radius: 14px;
+      border: 1px solid #e1ead3;
+      box-shadow: var(--section-shadow);
 
       opacity: 0;
       transform: translateY(18px);
-      transition: opacity 0.6s ease, transform 0.6s ease, box-shadow 0.25s ease;
-      transform-style: preserve-3d;
+      transition:
+        opacity 0.6s ease,
+        transform 0.6s ease,
+        box-shadow 0.25s ease,
+        border-color 0.25s ease,
+        background 0.25s ease;
     }
 
     .section.reveal {
@@ -220,20 +202,22 @@
       transform: translateY(0);
     }
 
-    /* advanced hover: slight 3D tilt + lift */
+    /* softer hover for card */
     .section:hover {
-      transform: translateY(-4px) rotateX(0.6deg) rotateY(-0.6deg);
-      box-shadow: 0 18px 38px rgba(85,107,47,0.12);
+      box-shadow: 0 16px 36px rgba(0,0,0,0.10);
+      border-color: #c7d7b3;
+      background: #fcfdf8;
     }
 
     .section p {
       line-height: 1.7;
       font-size: 15px;
+      margin-top: 10px;
     }
 
     ul {
       padding-left: 0;
-      margin: 8px 0 0 0;
+      margin: 10px 0 0 0;
       list-style: none;
       font-size: 15px;
       line-height: 1.6;
@@ -267,22 +251,6 @@
       transform: translateX(0);
     }
 
-    .project {
-      margin-bottom: 18px;
-    }
-
-    .project-title {
-      font-weight: 600;
-      color: #333;
-      margin-bottom: 4px;
-      transition: color 0.25s ease, transform 0.25s ease;
-    }
-
-    .project-title:hover {
-      color: #3d4f20;
-      transform: translateX(6px);
-    }
-
     a {
       color: var(--olive);
       text-decoration: none;
@@ -299,10 +267,6 @@
     .contact a {
       display: inline-block;
       margin-right: 18px;
-    }
-
-    /* contact subtle pill hover */
-    .contact a {
       padding: 4px 10px;
       border-radius: 999px;
       background: #f4f5ee;
@@ -317,7 +281,6 @@
       text-decoration: none;
     }
 
-    /* subtle resume pulse (when visible) */
     #resume.reveal p {
       animation: softPulse 2.4s ease-in-out infinite;
     }
@@ -343,17 +306,10 @@
       100% { transform: translate(20px, 30px); }
     }
 
-    @keyframes borderGlow {
-      0% { opacity: 0; }
-      30% { opacity: 1; }
-      100% { opacity: 0.65; }
-    }
-
-    /* responsive */
     @media (max-width: 640px) {
       .container {
-        margin: 24px 12px 40px;
-        padding: 24px 18px 30px;
+        margin: 56px 12px 40px;
+        padding: 16px;
       }
       h1 {
         font-size: 28px;
@@ -363,16 +319,16 @@
 </head>
 
 <body>
-  <!-- animated scroll indicator -->
-  <div class="scroll-bar" id="scrollBar">
-    <div class="scroll-thumb" id="scrollThumb"></div>
+  <!-- scroll progress -->
+  <div class="scroll-track">
+    <div class="scroll-bar" id="scrollBar"></div>
   </div>
 
   <!-- soft background shapes -->
   <div class="bg-orb orb1"></div>
   <div class="bg-orb orb2"></div>
 
-  <div class="container" id="container">
+  <div class="container">
 
     <!-- HEADER -->
     <h1>Aditya Singh</h1>
@@ -496,38 +452,14 @@
       sectionObserver.observe(sec);
     });
 
-    // scroll progress bar + thumb
+    // scroll progress bar
     const scrollBar = document.getElementById('scrollBar');
-    const scrollThumb = document.getElementById('scrollThumb');
-
     window.addEventListener('scroll', () => {
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
       const progress = docHeight > 0 ? scrollTop / docHeight : 0;
-      const percent = progress * 100;
-      scrollBar.style.width = percent + '%';
-      scrollThumb.style.left = percent + '%';
-    });
-
-    // magnetic hover effect for name
-    const container = document.getElementById('container');
-    const nameEl = document.querySelector('h1');
-
-    container.addEventListener('mousemove', (e) => {
-      const rect = container.getBoundingClientRect();
-      const x = (e.clientX - (rect.left + rect.width / 2)) / rect.width;
-      const y = (e.clientY - (rect.top + rect.height / 2)) / rect.height;
-
-      const moveX = x * 10; // px
-      const moveY = y * 6;  // px
-
-      nameEl.style.transform = `translate(${moveX}px, ${moveY}px)`;
-    });
-
-    container.addEventListener('mouseleave', () => {
-      nameEl.style.transform = 'translate(0, 0)';
+      scrollBar.style.width = (progress * 100) + '%';
     });
   </script>
 </body>
 </html>
-
