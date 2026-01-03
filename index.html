@@ -321,6 +321,68 @@
         font-size: 28px;
       }
     }
+    /* enhanced profile photo effects */
+.profile-pic {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  object-fit: cover;
+
+  /* grayscale by default */
+  filter: grayscale(100%);
+  transition:
+    filter 0.35s ease,
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  /* glowing olive ring */
+  box-shadow:
+    0 0 0 3px rgba(92, 111, 50, 0.35),
+    0 10px 24px rgba(0,0,0,0.18);
+
+  position: relative;
+}
+
+/* animated sweep ring */
+.profile-pic::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0%,
+    rgba(92,111,50,0.0) 30%,
+    rgba(92,111,50,0.9) 50%,
+    rgba(92,111,50,0.0) 70%,
+    transparent 100%
+  );
+  opacity: 0;
+  animation: none;
+  pointer-events: none;
+}
+
+/* hover state */
+.profile-pic:hover {
+  filter: grayscale(0%);
+  transform: translateY(-2px) scale(1.03);
+  box-shadow:
+    0 0 0 4px rgba(92,111,50,0.55),
+    0 14px 30px rgba(0,0,0,0.25);
+}
+
+/* trigger sweep */
+.profile-pic:hover::after {
+  opacity: 1;
+  animation: ringSweep 1.2s linear forwards;
+}
+
+/* animation */
+@keyframes ringSweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
   </style>
 </head>
 
