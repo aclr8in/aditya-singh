@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 
   <style>
+    
     :root {
       --olive: #556b2f;
       --olive-soft: #a3b88a;
@@ -323,29 +324,51 @@
     }
     /* enhanced profile photo effects */
 .profile-pic {
-  width: 104px;        /* bigger */
-  height: 104px;
+  width: 140px;        /* clearly visible */
+  height: 140px;
   border-radius: 50%;
   object-fit: cover;
 
-  /* remove grayscale completely */
-  filter: none;
+  border: 4px solid #c7d7b3;
+  background: #f4f5ee;
 
-  border: 3px solid #c7d7b3;
   box-shadow:
-    0 0 0 4px rgba(92,111,50,0.35),
-    0 14px 30px rgba(0,0,0,0.22);
+    0 0 0 6px rgba(92,111,50,0.25),
+    0 18px 36px rgba(0,0,0,0.25);
 
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-/* clean hover — no color tricks */
+/* subtle professional hover */
 .profile-pic:hover {
-  transform: translateY(-3px) scale(1.04);
+  transform: scale(1.05);
   box-shadow:
-    0 0 0 5px rgba(92,111,50,0.55),
-    0 18px 36px rgba(0,0,0,0.28);
+    0 0 0 7px rgba(92,111,50,0.45),
+    0 22px 44px rgba(0,0,0,0.3);
 }
+
+.header-row {
+  display: grid;
+  grid-template-columns: 1fr auto; /* text | photo */
+  align-items: center;
+  column-gap: 40px;
+}
+    .profile-pic {
+  align-self: start;
+  margin-top: 6px;
+}
+@media (max-width: 640px) {
+  .header-row {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-pic {
+    margin-top: 14px;
+    width: 110px;
+    height: 110px;
+  }
+}
+
 
 
   </style>
