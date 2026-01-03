@@ -324,38 +324,40 @@
     }
     /* enhanced profile photo effects */
 .profile-pic {
-  width: 140px;        /* clearly visible */
-  height: 140px;
-  border-radius: 50%;
+  width: 190px;          /* significantly bigger */
+  height: 190px;
   object-fit: cover;
 
-  border: 4px solid #c7d7b3;
+  /* square with rounded edges */
+  border-radius: 18px;
+
+  /* thin, elegant border */
+  border: 2px solid #b9c7a3;
+
   background: #f4f5ee;
 
   box-shadow:
-    0 0 0 6px rgba(92,111,50,0.25),
-    0 18px 36px rgba(0,0,0,0.25);
+    0 12px 28px rgba(0,0,0,0.22);
 
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 /* subtle professional hover */
 .profile-pic:hover {
-  transform: scale(1.05);
+  transform: translateY(-4px);
   box-shadow:
-    0 0 0 7px rgba(92,111,50,0.45),
-    0 22px 44px rgba(0,0,0,0.3);
+    0 18px 40px rgba(0,0,0,0.28);
 }
 
 .header-row {
   display: grid;
   grid-template-columns: 1fr auto; /* text | photo */
   align-items: center;
-  column-gap: 40px;
+  column-gap: 48px;
 }
     .profile-pic {
   align-self: start;
-  margin-top: 6px;
+  margin-top: 4px;
 }
 @media (max-width: 640px) {
   .header-row {
@@ -363,9 +365,9 @@
   }
 
   .profile-pic {
-    margin-top: 14px;
-    width: 110px;
-    height: 110px;
+    margin-top: 16px;
+    width: 140px;
+    height: 140px;
   }
 }
 
