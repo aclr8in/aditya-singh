@@ -324,23 +324,22 @@
     }
     /* enhanced profile photo effects */
 .profile-pic {
-  width: 190px;          /* significantly bigger */
+  width: 190px;
   height: 190px;
+
+  /* key fixes */
   object-fit: cover;
+  object-position: 50% 18%;   /* shifts focus UP toward face */
+  transform: scale(1.12);     /* zooms in slightly */
 
-  /* square with rounded edges */
   border-radius: 18px;
-
-  /* thin, elegant border */
   border: 2px solid #b9c7a3;
-
   background: #f4f5ee;
 
-  box-shadow:
-    0 12px 28px rgba(0,0,0,0.22);
-
+  box-shadow: 0 12px 28px rgba(0,0,0,0.22);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
+
 
 /* subtle professional hover */
 .profile-pic:hover {
