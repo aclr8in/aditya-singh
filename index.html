@@ -324,30 +324,23 @@
     }
     /* enhanced profile photo effects */
 .profile-pic {
-  width: 200px;
+  width: 200px;              /* as big as the square version */
   height: 200px;
 
+  border-radius: 50%;        /* perfect circle */
   object-fit: cover;
 
-  /* CRITICAL: face-dominant framing */
-  object-position: 50% 10%;   /* pushes crop high toward face */
-  transform: scale(1.22);     /* zooms in to reduce torso */
+  /* EXACT crop like reference */
+  object-position: 50% 14%;  /* centers face, trims torso */
+  transform: scale(1.18);    /* same zoom feel as reference */
 
-  border-radius: 18px;
-  border: 2px solid #b9c7a3;
+  border: 2px solid #b9c7a3; /* thin, clean border */
   background: #f4f5ee;
 
   box-shadow: 0 14px 34px rgba(0,0,0,0.25);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  transition: transform 0.35s ease;
 }
 
-
-/* subtle professional hover */
-.profile-pic:hover {
-  transform: translateY(-4px);
-  box-shadow:
-    0 18px 40px rgba(0,0,0,0.28);
-}
 
 .header-row {
   display: grid;
@@ -363,13 +356,12 @@
   .header-row {
     grid-template-columns: 1fr;
   }
-
-  .profile-pic {
-    margin-top: 16px;
-    width: 140px;
-    height: 140px;
-  }
+  .profile-pic:hover {
+  transform: scale(1.28);
 }
+
+
+
 
 
 
